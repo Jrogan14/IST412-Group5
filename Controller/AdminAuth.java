@@ -11,7 +11,7 @@ public class AdminAuth {
     int adminAuthCode;
 
     /**
-     * Constructs an Admin Author object with the given code.
+     * This constructor initializes the Admin Author with the given code.
      * @param adminAuthCode - Code associated with admin permission.
      */
     public AdminAuth(int adminAuthCode) {

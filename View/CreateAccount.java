@@ -39,7 +39,7 @@ public class CreateAccount {
     }
 
     /**
-     * This object creates an account based on the user login information created.
+     * This constructor initializes the user login information created.
      * @param username - User generated account name for identification.
      * @param password - User generated passcode for account security.
      * @param routingNumber - Financial institution routing number to access or preform transactions.
