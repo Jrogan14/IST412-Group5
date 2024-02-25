@@ -1,15 +1,30 @@
 package Model;
 
 public class User {
+    String email;
     String username;
     String password;
     int accountNumber;
     int routingNumber;
 
+    public User(String mail, String id, String pwd, int accountNo, int routingNo) {
+        this.email = mail;
+        this.username = id;
+        this.password = pwd;
+        this.accountNumber = accountNo;
+        this.routingNumber = routingNo;
+    }
+
     public User(String id, String pwd, int accountNo, int routingNo) {
         this.username = id;
         this.password = pwd;
         this.accountNumber = accountNo;
+        this.routingNumber = routingNo;
+    }
+
+    public User(String mail, String pwd, int routingNo) {
+        this.email = mail;
+        this.password = pwd;
         this.routingNumber = routingNo;
     }
 
