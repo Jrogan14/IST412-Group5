@@ -1,4 +1,4 @@
-package View;
+package src.View;
 
 /**
  * This class allows users to log in to application using established credentials.
@@ -15,5 +15,10 @@ public class SignIn{
     public String getLoginInfo (String username, String password) {
         String loginInfo = username + " " + password;
         return loginInfo;
+    }
+
+    // Implementation of method stubs for API
+    public boolean signIn(String username, String password) {
+        return false;
     }
 }

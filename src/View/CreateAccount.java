@@ -1,4 +1,4 @@
-package View;
+package src.View;
 
 /**
  * This class allows users to create an account in the application.
@@ -48,6 +48,11 @@ public class CreateAccount {
         this.username = username;
         this.password = password;
         this.routingNumber = routingNumber;
+    }
+
+    // Implementation of method stubs for API
+    public boolean createAccount(String username, String password) {
+        return false;
     }
 
 }

@@ -1,4 +1,4 @@
-package Controller;
+package src.Controller;
 
 /**
  * This class allows users to update an existing password.
@@ -15,5 +15,10 @@ public class UpdatePassword {
         password += newPassword;
         
         return newPassword;
+    }
+
+    // Implementation of method stubs for API
+    public boolean updatePassword(String username, String newPassword) {
+        return false;
     }
 }

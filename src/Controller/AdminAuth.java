@@ -1,4 +1,4 @@
-package Controller;
+package src.Controller;
 
 /**
  * This class establishes a code for authorization of an admin level user.
@@ -24,6 +24,11 @@ public class AdminAuth {
      */
     public int getAdminAuthCode() {
         return adminAuthCode;
+    }
+
+    // Implementation of method stubs for API
+    public boolean authenticateAdmin(String username, String password) {
+        return false;
     }
     
 }
