@@ -3,7 +3,7 @@ package src.View;
 /**
  * This class allows users to log in to application using established credentials.
  */
-public class SignIn{
+public class SignIn {
 
     /**
      * This method takes the users login information and validates it.
