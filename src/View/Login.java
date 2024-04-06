@@ -2,7 +2,6 @@ package src.View;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.sql.*;
 
 /**
  * This class allows users to log in to application using established credentials.
@@ -10,15 +9,17 @@ import java.sql.*;
 
 public class Login extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
+    private JButton buttonConfirm;
     private JButton buttonCancel;
+    private JTextField tfUsername;
+    private JTextField tfPassword;
 
     public Login() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(buttonConfirm);
 
-        buttonOK.addActionListener(new ActionListener() {
+        buttonConfirm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }

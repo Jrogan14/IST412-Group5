@@ -3,7 +3,6 @@ package src.View;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
 
 /**
  * This class allows users to create an account in the application.
@@ -11,15 +10,26 @@ import java.sql.*;
 
 public class Register extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JButton buttonRegister;
+    private JButton buttonSignIn;
+    private JTextField tfUsername;
+    private JTextField tfPassword;
+    private JTextField tfFirstName;
+    private JTextField tfLastName;
+    private JTextField tfEmail;
 
     public Register() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(buttonRegister);
 
-        buttonOK.addActionListener(new ActionListener() {
+        buttonRegister.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onOK();
+            }
+        });
+
+        buttonSignIn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
