@@ -37,7 +37,21 @@ public class Register extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
+        // Retrieve user input from text fields
+        String firstName = tfFirstName.getText();
+        String lastName = tfLastName.getText();
+        String emailAddress = tfEmail.getText();
+        String username = tfUsername.getText();
+        String password = tfPassword.getText();
+
+        // Create an instance of CreateAccount and call createAccount() method
+        CreateAccount createAccount = new CreateAccount();
+        createAccount.createAccount(firstName, lastName, emailAddress, username, password);
+
+        // Optionally, you can call createAccountAPI() method if needed
+        // createAccount.createAccountAPI(username, password);
+
+        // Close the registration dialog
         dispose();
     }
 
