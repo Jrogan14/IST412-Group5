@@ -11,6 +11,6 @@ Team Member ID |  Team Member Name   | Design Pattern Implemented | Classes/Inte
 ---:|:-------------------:|----------------------------|-------------------------------------------------------|
 1 | Chung Yin Terry Wan | Proxy and Getting Input    | LoggerProxy and Login + Register views
 2 |     Josh Rogan      | Composite and Navigation   |
-3 |   Cameron Doorey    |                            |
+3 |   Cameron Doorey    | Strategy and Dashboard     |
 4 | Karna Sivaprakasam  |                            |
 5 |  Prajwal Turlapati  |                            |
