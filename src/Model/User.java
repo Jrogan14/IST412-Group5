@@ -4,28 +4,27 @@ public class User {
     String email;
     String username;
     String password;
-    int accountNumber;
-    int routingNumber;
+    String firstName;
+    String lastName;
 
-    public User(String mail, String id, String pwd, int accountNo, int routingNo) {
+    public User(String mail, String id, String pwd, String fname, String lname) {
         this.email = mail;
         this.username = id;
         this.password = pwd;
-        this.accountNumber = accountNo;
-        this.routingNumber = routingNo;
+        this.firstName = fname;
+        this.lastName = lname;
     }
 
-    public User(String id, String pwd, int accountNo, int routingNo) {
+    public User(String id, String pwd, String fname, String lname) {
         this.username = id;
         this.password = pwd;
-        this.accountNumber = accountNo;
-        this.routingNumber = routingNo;
+        this.firstName = fname;
+        this.lastName = lname;
     }
 
-    public User(String mail, String pwd, int routingNo) {
+    public User(String mail, String pwd) {
         this.email = mail;
         this.password = pwd;
-        this.routingNumber = routingNo;
     }
 
     public void Authenticate(String id, String pwd) {
@@ -40,11 +39,11 @@ public class User {
         return this.password;
     }
 
-    public int getAccountNumber() {
-        return this.accountNumber;
+    public String getFirstName() {
+        return this.firstName;
     }
 
-    public int getRoutingNumber() {
-        return this.routingNumber;
+    public String getLastName() {
+        return this.lastName;
     }
 }
