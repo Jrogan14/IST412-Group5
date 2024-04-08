@@ -1,4 +1,4 @@
-package src.Controller;
+package Controller;
 
 /**
  * This class establishes a code for authorization of an admin level user.

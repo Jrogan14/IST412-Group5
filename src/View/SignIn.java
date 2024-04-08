@@ -1,4 +1,4 @@
-package src.View;
+package View;
 
 /**
  * This class allows users to log in to application using established credentials.
