@@ -1,8 +1,11 @@
-package src.View;
+package src.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import Model.Budget;
+import src.Model.Budget;
+
+import static src.Controller.Budget.setTotalExpenses;
+
 /**
  * This class allows users to create a budget based on their financial
  * goals and rules of healthy financial practice.
@@ -29,10 +32,10 @@ public class CreateBudget {
     public void updateBudget(){
         totalAmount.add(expenses);
         int totalExpenses = 0;
-        for (int i = 0; i < totalAmount.size(); i++) {
-            totalExpenses += totalAmount.get(i);
+        for (Integer integer : totalAmount) {
+            totalExpenses += integer;
         }
-        budget.setTotalExpenses(totalExpenses);
+        setTotalExpenses(totalExpenses);
     }
 
     private int calculateTotalExpenses() {

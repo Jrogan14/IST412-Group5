@@ -1,8 +1,9 @@
-package src.View;
+package src.Controller;
 
-import Model.Budget;
+import src.Model.Budget;
+import src.Model.Observer;
 
-public class UpcomingFee implements Observer{
+public class UpcomingFee implements Observer {
     Budget budget;
     private int totalExpenses;
     private int savingsGoal;

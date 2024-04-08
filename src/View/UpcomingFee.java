@@ -1,6 +1,6 @@
-package View;
+package src.View;
 
-import Model.Budget;
+import src.Model.Budget;
 
 public class UpcomingFee {
     Budget budget;

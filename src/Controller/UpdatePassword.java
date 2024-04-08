@@ -1,4 +1,4 @@
-package Controller;
+package src.Controller;
 
 /**
  * This class allows users to update an existing password.

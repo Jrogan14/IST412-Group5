@@ -1,4 +1,4 @@
-package Model;
+package src.Model;
 
 /**
  * This class establishes the creation on screen for user budgeting.
