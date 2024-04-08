@@ -36,5 +36,4 @@ public class Dashboard {
         // Make the frame visible
         frame.setVisible(true);
     }
-
 }
