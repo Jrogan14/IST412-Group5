@@ -24,4 +24,21 @@ public class CreateBudget {
         this.expenses = expenses;
         this.totalAmount = totalAmount;
     }
+
+
+    // Implement Strategy Pattern for approach to budget creation
+    // Either uses percentages or numerical values
+    private BudgetDivision strategy;
+
+    public CreateBudget(BudgetDivision strategy) {
+        this.strategy = strategy;
+    }
+
+    public void setStrategy(BudgetDivision strategy) {
+        this.strategy = strategy;
+    }
+
+    public void createBudget() {
+        strategy.createBudget();
+    }
 }
