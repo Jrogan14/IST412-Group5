@@ -1,11 +1,13 @@
 package src.Model;
 
-public class User {
+public class User implements Observer{
     String email;
     String username;
     String password;
     String firstName;
     String lastName;
+    int totalExpenses;
+    int savingsGoal;
 
     public User(String mail, String id, String pwd, String fname, String lname) {
         this.email = mail;
@@ -45,5 +47,11 @@ public class User {
 
     public String getLastName() {
         return this.lastName;
+    }
+
+    @Override
+    public void update(int totalExpenses, int savingsGoal) {
+        this.totalExpenses = totalExpenses;
+        this.savingsGoal = savingsGoal;
     }
 }

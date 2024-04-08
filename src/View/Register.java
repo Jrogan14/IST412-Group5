@@ -1,5 +1,7 @@
 package src.View;
 
+import src.Model.Observer;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +10,7 @@ import java.awt.event.ActionListener;
  * This class allows users to create an account in the application.
  */
 
-public class Register extends JDialog {
+public class Register extends JDialog implements Observer {
     private JPanel contentPane;
     private JButton buttonRegister;
     private JButton buttonSignIn;
@@ -17,6 +19,9 @@ public class Register extends JDialog {
     private JTextField tfFirstName;
     private JTextField tfLastName;
     private JTextField tfEmail;
+    private JButton dashboardButton;
+    int totalExpenses;
+    int savingsGoal;
 
     public Register() {
         setContentPane(contentPane);
@@ -53,5 +58,10 @@ public class Register extends JDialog {
 
         // Close the registration dialog
         dispose();
+    }
+    @Override
+    public void update(int totalExpenses, int savingsGoal) {
+        this.totalExpenses = totalExpenses;
+        this.savingsGoal = savingsGoal;
     }
 }

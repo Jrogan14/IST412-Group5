@@ -13,6 +13,8 @@ public class Login extends JDialog {
     private JButton buttonCancel;
     private JTextField tfUsername;
     private JTextField tfPassword;
+    private JButton createAccountButton;
+    private JButton dashboardButton;
 
     public Login() {
         setContentPane(contentPane);
@@ -31,6 +33,13 @@ public class Login extends JDialog {
             }
         });
 
+        createAccountButton.addActionListener((new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Register dialog = new Register();
+                dialog.pack();
+                dialog.setVisible(true);
+            }
+        }));
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
