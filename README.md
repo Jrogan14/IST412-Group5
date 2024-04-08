@@ -12,5 +12,5 @@
 |              1 | Chung Yin Terry Wan | Proxy and Getting Input    | LoggerProxy and Login + Register views                                     |
 |              2 |     Josh Rogan      | Composite and Navigation   | Auth0filter + src/main Main                                                |
 |              3 |   Cameron Doorey    | Strategy and Dashboard     | Dashboard View + CreateBudget + BudgetDivision + NumBudget + PercentBudget |
-|              4 | Karna Sivaprakasam  |                            |                                                                            |
+|              4 | Karna Sivaprakasam  | Observer and Master-Detail | createBudget+Dashboard+DispalyBudget+upcomingFee+viewInfo+Observer + Budget|
 |              5 |  Prajwal Turlapati  |                            |                                                                            |
