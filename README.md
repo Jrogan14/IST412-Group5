@@ -10,7 +10,7 @@
 | Team Member ID |  Team Member Name   | Design Pattern Implemented | Classes/Interfaces implementing the Design Pattern |
 |---------------:|:-------------------:|----------------------------|----------------------------------------------------|
 |              1 | Chung Yin Terry Wan | Proxy and Getting Input    | LoggerProxy and Login + Register views             |
-|              2 |     Josh Rogan      | Composite and Navigation   | src/main Servlets Composite Tree + Main Nav card view |
+|              2 |     Josh Rogan      | Composite and Navigation   | src/01-login/src/main Servlets Composite Tree + Main Nav card view |
 |              3 |   Cameron Doorey    | Strategy and Dashboard     |                                                    |
 |              4 | Karna Sivaprakasam  |                            |                                                    |
 |              5 |  Prajwal Turlapati  |                            |                                                    |
