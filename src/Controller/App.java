@@ -11,6 +11,6 @@ public class App {
         dialog2.pack();
         dialog.setVisible(true);
         dialog2.setVisible(true);
-        System.exit(0);
+        //System.exit(0);
     }
 }
