@@ -1,4 +1,4 @@
-package com.auth0.example;
+package TestHarness;
 
 import java.awt.*;
 import java.io.IOException;
