@@ -86,7 +86,7 @@ public class CreateAccount {
         // Inserting the user data into the database
         try {
             // Establish the connection to the database
-            Connection connection = DriverManager.getConnection("jdbc:ucanaccess://IST412-Group5/src/bankdb.accdb");
+            Connection connection = DriverManager.getConnection("jdbc:ucanaccess://src/bankdb.accdb");
 
             // Prepare SQL statement
             String sql = "INSERT INTO Users (Username, Password, FirstName, LastName, Email) VALUES (?, ?, ?, ?, ?)";
