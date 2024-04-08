@@ -10,7 +10,7 @@
 | Team Member ID |  Team Member Name   | Design Pattern Implemented | Classes/Interfaces implementing the Design Pattern |
 |---------------:|:-------------------:|----------------------------|----------------------------------------------------|
 |              1 | Chung Yin Terry Wan | Proxy and Getting Input    | LoggerProxy and Login + Register views             |
-|              2 |     Josh Rogan      | Composite and Navigation   | Auth0 filter + src/main (Main.java)                |
+|              2 |     Josh Rogan      | Composite and Navigation   | Auth0filter + src/main Main                        |
 |              3 |   Cameron Doorey    | Strategy and Dashboard     |                                                    |
 |              4 | Karna Sivaprakasam  |                            |                                                    |
 |              5 |  Prajwal Turlapati  |                            |                                                    |
