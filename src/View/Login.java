@@ -15,7 +15,6 @@ public class Login extends JDialog {
     private JTextField tfUsername;
     private JPasswordField tfPassword;
     private JButton createAccountButton;
-    private JButton dashboardButton;
 
     public Login() {
         setContentPane(contentPane);

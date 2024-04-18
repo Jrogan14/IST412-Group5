@@ -19,7 +19,6 @@ public class Register extends JDialog implements Observer {
     private JTextField tfFirstName;
     private JTextField tfLastName;
     private JTextField tfEmail;
-    private JButton dashboardButton;
     int totalExpenses;
     int savingsGoal;
 
