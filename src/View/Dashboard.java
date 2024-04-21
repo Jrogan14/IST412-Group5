@@ -9,12 +9,15 @@ public class Dashboard {
     private JPanel transactionPanel;
     private JLabel transactionTitle;
     private JButton acctDetailsButton;
-    private JButton settingsButton;
+    private JButton withdrawButton;
     private JScrollPane bankInfoPanel;
     private JButton editBudgetButton;
     private JButton budgetPreferencesButton;
     private JTable budgetTable;
     private JPanel budgetViewPanel;
+    private JTable accountTable;
+    private JButton deleteAccountButton;
+    private JButton depositButton;
 
     public void showDashboard() {
         // Create and configure the main frame for the dashboard
@@ -35,5 +38,10 @@ public class Dashboard {
 
         // Make the frame visible
         frame.setVisible(true);
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+
     }
 }

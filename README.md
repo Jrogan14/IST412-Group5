@@ -7,10 +7,3 @@
 |              4 | Karna Sivaprakasam  | 25%                | Budget Functionality + Dashboard Functionality + Observer + Refactoring         |
 |              5 |  Prajwal Turlapati  |                    |                                                                                 |
 
-| Team Member ID |  Team Member Name   | Design Pattern Implemented | Classes/Interfaces implementing the Design Pattern                                    |
-|---------------:|:-------------------:|----------------------------|---------------------------------------------------------------------------------------|
-|              1 | Chung Yin Terry Wan | Proxy and Getting Input    | LoggerProxy and Login + Register views                                                |
-|              2 |     Josh Rogan      | Composite and Navigation   | Composite design in Oberserver, User and Register + Accordion Design on side pannels  |
-|              3 |   Cameron Doorey    | Strategy and Dashboard     | Dashboard View + CreateBudget + BudgetDivision + NumBudget + PercentBudget            |
-|              4 | Karna Sivaprakasam  | Observer and Master-Detail | createBudget + Dashboard + DispalyBudget + upcomingFee + viewInfo + Observer + Budget |
-|              5 |  Prajwal Turlapati  |                            |                                                                                       |
