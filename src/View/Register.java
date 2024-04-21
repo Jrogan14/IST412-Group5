@@ -60,6 +60,7 @@ public class Register extends JDialog implements Observer {
     }
 
     private void onSignIn() {
+        dispose();
         Login dialog = new Login();
         dialog.pack();
         dialog.setVisible(true);

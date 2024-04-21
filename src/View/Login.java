@@ -40,6 +40,7 @@ public class Login extends JDialog {
                 dialog.setVisible(true);
             }
         }));
+
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -73,6 +74,7 @@ public class Login extends JDialog {
             // Code to display the dashboard UI goes here
             // Assuming you have a method to display the dashboard UI, let's call it showDashboard()
             dashboard.showDashboard();
+            dispose();
         } else {
             // Display error message
             JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
