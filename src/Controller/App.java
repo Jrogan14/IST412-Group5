@@ -8,6 +8,5 @@ public class App {
         Login dialog = new Login();
         dialog.pack();
         dialog.setVisible(true);
-        System.exit(0);
     }
 }
