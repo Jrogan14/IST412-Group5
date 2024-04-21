@@ -29,18 +29,18 @@ public class Register extends JDialog implements Observer {
 
         buttonRegister.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                onRegister();
             }
         });
 
         buttonSignIn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                onSignIn();
             }
         });
     }
 
-    private void onOK() {
+    private void onRegister() {
         // Retrieve user input from text fields
         String firstName = tfFirstName.getText();
         String lastName = tfLastName.getText();
@@ -57,6 +57,12 @@ public class Register extends JDialog implements Observer {
 
         // Close the registration dialog
         dispose();
+    }
+
+    private void onSignIn() {
+        Login dialog = new Login();
+        dialog.pack();
+        dialog.setVisible(true);
     }
     @Override
     public void update(int totalExpenses, int savingsGoal) {

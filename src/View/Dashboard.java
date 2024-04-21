@@ -10,14 +10,19 @@ public class Dashboard {
     private JLabel transactionTitle;
     private JButton acctDetailsButton;
     private JButton withdrawButton;
-    private JScrollPane bankInfoPanel;
     private JButton editBudgetButton;
     private JButton budgetPreferencesButton;
     private JTable budgetTable;
     private JPanel budgetViewPanel;
-    private JTable accountTable;
-    private JButton deleteAccountButton;
     private JButton depositButton;
+    private JLabel accNameTitle;
+    private JLabel accNumTitle;
+    private JLabel routingNumTitle;
+    private JLabel balanceTitle;
+    private JLabel accountName;
+    private JLabel accountNum;
+    private JLabel routingNum;
+    private JLabel totalBalance;
 
     public void showDashboard() {
         // Create and configure the main frame for the dashboard
