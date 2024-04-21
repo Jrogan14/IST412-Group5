@@ -3,6 +3,7 @@ package src.View;
 import javax.swing.*;
 
 public class Dashboard {
+    private JPanel contentPane;
     private JLabel dashboardTitle;
     private JLabel budgetTitle;
     private JPanel budgetPanel;
@@ -39,7 +40,7 @@ public class Dashboard {
         // Add more components as needed
 
         // Set the main panel as the content pane of the frame
-        frame.setContentPane(mainPanel);
+        frame.setContentPane(contentPane);
 
         // Make the frame visible
         frame.setVisible(true);
