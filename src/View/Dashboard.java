@@ -2,6 +2,10 @@ package src.View;
 
 import javax.swing.*;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class Dashboard {
     private JPanel contentPane;
     private JLabel dashboardTitle;
@@ -43,10 +47,18 @@ public class Dashboard {
 
         // Make the frame visible
         frame.setVisible(true);
-    }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-
+        // Add action listener for the "Edit Budget" button
+        editBudgetButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Create and display the budget creation GUI
+                BudgetCreation budgetCreation = new BudgetCreation();
+                JFrame budgetFrame = new JFrame("Edit Budget");
+                budgetFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                budgetFrame.setContentPane(budgetCreation.BudgetCreation);
+                budgetFrame.pack();
+                budgetFrame.setVisible(true);
+            }
+        });
     }
 }

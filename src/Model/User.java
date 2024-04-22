@@ -49,9 +49,9 @@ public class User implements Observer{
         return this.lastName;
     }
 
-    @Override
-    public void update(int totalExpenses, int savingsGoal) {
-        this.totalExpenses = totalExpenses;
-        this.savingsGoal = savingsGoal;
-    }
+//    @Override
+//    public void update(int totalExpenses, int savingsGoal) {
+//        this.totalExpenses = totalExpenses;
+//        this.savingsGoal = savingsGoal;
+//    }
 }
