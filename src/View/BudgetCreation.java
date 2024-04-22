@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import src.Model.User;
 
 public class BudgetCreation {
     JPanel BudgetCreation;
@@ -17,9 +18,15 @@ public class BudgetCreation {
 
     // Connection details for your database
     private static final String DB_URL = "jdbc:ucanaccess://src/bankdb.accdb";
-    private static final String USERNAME = getCurrentUser().getUsername();
-    private static final String PASSWORD = getCurrentUser().getPassword();
-
+    //private static final String USERNAME = getCurrentUser().getUsername();
+    private static final User USER = new User("abc@gmail.com", "abc", "bank_account",
+                "new", "user");
+    private static final String USERNAME = USER.getUsername();
+    private static final String PASSWORD = USER.getPassword();
+    public String getUsername() {
+        String userName = USER.getUsername();
+        return userName;
+    }
     public BudgetCreation() {
         // Create table model and set it to the JTable
         DefaultTableModel tableModel = new DefaultTableModel(

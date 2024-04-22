@@ -17,7 +17,22 @@ public class Admin {
     }
 
     public void Authenticate(String id, String pwd, int code) {
-        
+        if (id.equals(this.username)) {
+            if (pwd.equals(this.password)) {
+                if (code == this.authCode) {
+                    System.out.println("Your admin access has been authenticated");
+                }
+                else {
+                    System.out.println("Your code is incorrect");
+                }
+            }
+            else {
+                System.out.println("Your password is incorrect");
+            }
+        }
+        else {
+            System.out.println("Your username is incorrect");
+        }
     }
 
     public String getUsername() {
