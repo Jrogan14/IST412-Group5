@@ -113,11 +113,4 @@ public class CreateAccount {
             System.err.println("Error inserting user into database: " + e.getMessage());
         }
     }
-
-    // --------- MAY BE OBSOLETE NOW -----------
-    // Implementation of method stubs for API
-    //public boolean createAccountAPI(String username, String password) {
-    //    return false;
-    //}
-
 }

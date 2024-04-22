@@ -18,5 +18,6 @@ public class UpcomingFee {
      */
     public void notifyUpcomingFees() {
         // Implementation to check for upcoming fees and notify the user
+        System.out.println("Checking for upcoming fees");
     }
 }
