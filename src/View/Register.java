@@ -26,6 +26,7 @@ public class Register extends JDialog implements Observer {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonRegister);
+        setLocationRelativeTo(null);
 
         buttonRegister.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

@@ -20,6 +20,7 @@ public class Login extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonConfirm);
+        setLocationRelativeTo(null);
 
         buttonConfirm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

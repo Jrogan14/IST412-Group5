@@ -7,7 +7,6 @@ import java.sql.*;
 
 public class Dashboard {
     private JPanel contentPane;
-    private JLabel dashboardTitle;
     private JLabel budgetTitle;
     private JPanel budgetPanel;
     private JPanel transactionPanel;
@@ -37,12 +36,7 @@ public class Dashboard {
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
 
-        // Create and add components to the frame
-        JPanel mainPanel = new JPanel();
-        JLabel titleLabel = new JLabel("Dashboard");
-        mainPanel.add(titleLabel);
-
-        // Set the main panel as the content pane of the frame
+        // Set content pane of the frame
         frame.setContentPane(contentPane);
 
         // Make the frame visible
@@ -96,6 +90,9 @@ public class Dashboard {
                         accountNum.setText(String.valueOf(accNum));
                         routingNum.setText(String.valueOf(routNum));
                         totalBalance.setText(String.valueOf(balance));
+                    } else {
+                        System.err.println("No such user was found.");
+                        JOptionPane.showMessageDialog(frame, "Incorrect Username");
                     }
 
                     // Close resources
@@ -103,10 +100,25 @@ public class Dashboard {
                     connection.close();
 
                 }
-                // If user is not found
                 catch (SQLException ex) {
-                    System.err.println("Error finding user: " + ex.getMessage());
+                    System.err.println("Error: " + ex.getMessage());
                 }
+            }
+        });
+
+        depositButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Deposit menu = new Deposit();
+                menu.pack();
+                menu.setVisible(true);
+            }
+        });
+
+        withdrawButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Withdraw menu = new Withdraw();
+                menu.pack();
+                menu.setVisible(true);
             }
         });
     }

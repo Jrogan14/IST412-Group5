@@ -21,6 +21,7 @@ public class AddBankAccount extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonConfirm);
+        setLocationRelativeTo(null);
 
         buttonConfirm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -100,7 +101,7 @@ public class AddBankAccount extends JDialog {
         if (errors.length() > 0) {
             JOptionPane.showMessageDialog(this, errors.toString(), "Errors", JOptionPane.WARNING_MESSAGE);
         } else {
-            // Inserting the user data into the database
+            // Inserting bank account information into the database
             try {
                 // Establish the connection to the database
                 Connection connection = DriverManager.getConnection("jdbc:ucanaccess://src/bankdb.accdb");
