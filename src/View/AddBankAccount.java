@@ -2,6 +2,10 @@ package src.View;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class AddBankAccount extends JDialog {
     private JPanel contentPane;
@@ -11,6 +15,7 @@ public class AddBankAccount extends JDialog {
     private JTextField tfInitialBal;
     private JButton buttonConfirm;
     private JButton buttonCancel;
+    private JTextField tfUsername;
 
     public AddBankAccount() {
         setContentPane(contentPane);
@@ -46,12 +51,85 @@ public class AddBankAccount extends JDialog {
     }
 
     private void onConfirm() {
-        // Retrieve user input from text fields
-        String accName = tfAccountName.getText();
-        String accNum = tfAccountNum.getText();
-        String routingNum = tfRoutingNum.getText();
-        String bal = tfInitialBal.getText();
+        StringBuilder errors = new StringBuilder();
+        String username = "", accName = "";
+        int accNo = 0, routingNo = 0;
+        double bal = 0;
+        // verify fields
+        if (tfUsername.getText().isEmpty()) {
+            errors.append("Username must not be empty.\n");
+        } else {
+            username = tfUsername.getText();
+        }
+        if (tfAccountName.getText().isEmpty()) {
+            errors.append("Bank Holder Name must not be empty.\n");
+        } else {
+            accName = tfAccountName.getText();
+        }
+        if (tfAccountNum.getText().isEmpty()) {
+            errors.append("Account Number must not be empty.\n");
+        } else {
+            try {
+                accNo = Integer.parseInt(tfAccountNum.getText());
+            } catch (NumberFormatException ex) {
+                errors.append("Account Number must be a number.\n");
+            }
+        }
+        if (tfRoutingNum.getText().isEmpty()) {
+            errors.append("Routing Number must not be empty.\n");
+        } else if (tfRoutingNum.getText().length() != 9) {
+            errors.append("Routing Number must be 9 digits.\n");
+        }
+            else {
+                try {
+                    routingNo = Integer.parseInt(tfRoutingNum.getText());
+                } catch (NumberFormatException ex) {
+                    errors.append("Routing Number must be a number.\n");
+                }
+            }
+        if (tfInitialBal.getText().isEmpty()) {
+            errors.append("Initial Balance must not be empty.\n");
+        } else {
+            try {
+                bal = Double.parseDouble(tfInitialBal.getText());
+            } catch (NumberFormatException ex) {
+                errors.append("Initial Balance must be a number.\n");
+            }
+        }
+        // display errors
+        if (errors.length() > 0) {
+            JOptionPane.showMessageDialog(this, errors.toString(), "Errors", JOptionPane.WARNING_MESSAGE);
+        } else {
+            // Inserting the user data into the database
+            try {
+                // Establish the connection to the database
+                Connection connection = DriverManager.getConnection("jdbc:ucanaccess://src/bankdb.accdb");
 
+                // Prepare SQL statement
+                String sql = "INSERT INTO BankAccounts (Username, AccountName, AccountNo, RoutingNo, Balance) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, username);
+                statement.setString(2, accName);
+                statement.setInt(3, accNo);
+                statement.setInt(4, routingNo);
+                statement.setDouble(5, bal);
+
+                // Execute the statement
+                int rowsInserted = statement.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("A new bank account was inserted successfully!");
+                }
+
+                // Close resources
+                statement.close();
+                connection.close();
+
+            }
+            // If inserting the data doesn't work
+            catch (SQLException e) {
+                System.err.println("Error inserting bank account into database: " + e.getMessage());
+            }
+        }
 
         dispose();
     }
