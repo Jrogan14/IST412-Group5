@@ -1,8 +1,11 @@
 package src.View;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.util.Base64;
 
 /**
  * This class allows users to log in to application using established credentials.
@@ -63,10 +66,8 @@ public class Login extends JDialog {
         String username = tfUsername.getText();
         String password = new String(tfPassword.getPassword());
 
-        // Validate credentials
-        boolean validCredentials = validateCredentials(username, password);
-
-        if (validCredentials) {
+        // Authentication
+        if (password.equals(getDecryptedPassword(username))) {
             // Close the login dialog
             dispose();
 
@@ -87,29 +88,46 @@ public class Login extends JDialog {
         dispose();
     }
 
-    private boolean validateCredentials(String username, String password) {
+    // Gets user's password from database and decrypts it
+    private String getDecryptedPassword(String username) {
+        String decryptedPassword = "";
         String url = "jdbc:ucanaccess://src/bankdb.accdb"; // Database URL
-        String sql = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
-        boolean validCredentials = false;
-
+        String sql = "SELECT Password FROM Users WHERE Username = ?";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             // Set parameters for the prepared statement
             stmt.setString(1, username);
-            stmt.setString(2, password);
 
             // Execute the query
             try (ResultSet rs = stmt.executeQuery()) {
                 // Check if the query returned any results
                 if (rs.next()) {
-                    // User exists in the database
-                    validCredentials = true;
+                    decryptedPassword = decrypt(rs.getString("Password"));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace(); // Handle any SQL exceptions
         }
 
-        return validCredentials;
+        return decryptedPassword;
+    }
+
+    public static String decrypt(String ciphertext) {
+        String key = "5a1f63f8d568876d85e3f6bafec6d63c";
+        try {
+            byte[] keyBytes = key.getBytes();
+            SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+
+            byte[] ciphertextBytes = Base64.getDecoder().decode(ciphertext);
+            byte[] plaintextBytes = cipher.doFinal(ciphertextBytes);
+
+            return new String(plaintextBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
