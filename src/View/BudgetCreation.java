@@ -16,17 +16,10 @@ public class BudgetCreation {
     private JButton saveBudgetButton;
     private JButton clearBudgetButton;
 
-    // Connection details for your database
+    // Add DB_URL here
     private static final String DB_URL = "jdbc:ucanaccess://src/bankdb.accdb";
-    //private static final String USERNAME = getCurrentUser().getUsername();
-    private static final User USER = new User("abc@gmail.com", "abc", "bank_account",
-                "new", "user");
-    private static final String USERNAME = USER.getUsername();
-    private static final String PASSWORD = USER.getPassword();
-    public String getUsername() {
-        String userName = USER.getUsername();
-        return userName;
-    }
+
+    // Modify the constructor to accept a User parameter
     public BudgetCreation() {
         // Create table model and set it to the JTable
         DefaultTableModel tableModel = new DefaultTableModel(
@@ -57,18 +50,21 @@ public class BudgetCreation {
     // Method to save the budget data to the database
     private void saveBudgetDataToDatabase() {
         DefaultTableModel tableModel = (DefaultTableModel) editBudget.getModel();
-        try (Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD)) {
-            String sql = "INSERT INTO Budgets (Category, Amount, Username) VALUES (?, ?, ?)";
+        String username = Login.getCurrentUser(); // Retrieve the current username
+        try (Connection conn = DriverManager.getConnection(DB_URL)) {
+            String sql = "INSERT INTO Budgets (Rent, Bills, Groceries, Savings, Checking, Username) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 // Iterate through rows and save data to database
                 for (int i = 0; i < tableModel.getRowCount(); i++) {
-                    String category = (String) tableModel.getValueAt(i, 0);
-                    Double amount = (Double) tableModel.getValueAt(i, 1);
-                    pstmt.setString(1, category);
-                    pstmt.setDouble(2, amount);
-                    pstmt.setString(3, getUsername());
-                    pstmt.executeUpdate();
+                    Object value = tableModel.getValueAt(i, 1);
+                    if (value instanceof Double) {
+                        pstmt.setDouble(i + 1, (Double) value);
+                    } else if (value instanceof String) {
+                        pstmt.setDouble(i + 1, Double.parseDouble((String) value));
+                    }
                 }
+                pstmt.setString(6, username); // Set the username in the PreparedStatement
+                pstmt.executeUpdate();
                 JOptionPane.showMessageDialog(BudgetCreation, "Budget saved successfully to the database!");
             }
         } catch (SQLException ex) {

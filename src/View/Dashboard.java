@@ -1,11 +1,10 @@
 package src.View;
 
-import src.View.Login;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-
 
 public class Dashboard {
     private JPanel contentPane;
@@ -16,7 +15,6 @@ public class Dashboard {
     private JButton addAccButton;
     private JButton withdrawButton;
     private JButton editBudgetButton;
-    private JButton budgetPreferencesButton;
     private JTable budgetTable;
     private JPanel budgetViewPanel;
     private JButton depositButton;
@@ -54,6 +52,7 @@ public class Dashboard {
                 budgetFrame.setContentPane(budgetCreation.BudgetCreation);
                 budgetFrame.pack();
                 budgetFrame.setVisible(true);
+                budgetFrame.setLocationRelativeTo(null);
             }
         });
 
@@ -69,6 +68,7 @@ public class Dashboard {
         // Add action listener for the "Refresh Info" button
         refreshInfoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                populateBudgetTable();
                 String username = Login.getCurrentUser();
 
                 try {
@@ -94,7 +94,7 @@ public class Dashboard {
                         totalBalance.setText(String.valueOf(balance));
                     } else {
                         System.err.println("No such user was found.");
-                        JOptionPane.showMessageDialog(frame, "Incorrect Username");
+                        JOptionPane.showMessageDialog(frame, "No bank account was found.");
                     }
 
                     // Close resources
@@ -123,5 +123,34 @@ public class Dashboard {
                 menu.setVisible(true);
             }
         });
+    }
+
+    public void populateBudgetTable() {
+        DefaultTableModel model = (DefaultTableModel) budgetTable.getModel();
+        model.setRowCount(0); // Clear existing rows
+
+        String username = Login.getCurrentUser(); // Get the current user
+
+        try (Connection conn = DriverManager.getConnection("jdbc:ucanaccess://src/bankdb.accdb")) {
+            String sql = "SELECT Rent, Bills, Groceries, Savings, Checking FROM Budgets WHERE Username = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, username);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        Object[] rowData = {
+                                rs.getDouble("Rent"),
+                                rs.getDouble("Bills"),
+                                rs.getDouble("Groceries"),
+                                rs.getDouble("Savings"),
+                                rs.getDouble("Checking")
+                        };
+                        model.addRow(rowData);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle any SQL exceptions
+        }
     }
 }
