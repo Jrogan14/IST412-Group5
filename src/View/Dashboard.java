@@ -1,85 +1,22 @@
-//package src.View;
-//
-//import javax.swing.*;
-//
-//import javax.swing.*;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//
-//public class Dashboard {
-//    private JPanel contentPane;
-//    private JLabel dashboardTitle;
-//    private JLabel budgetTitle;
-//    private JPanel budgetPanel;
-//    private JPanel transactionPanel;
-//    private JLabel transactionTitle;
-//    private JButton acctDetailsButton;
-//    private JButton withdrawButton;
-//    private JButton editBudgetButton;
-//    private JTable budgetTable;
-//    private JPanel budgetViewPanel;
-//    private JButton depositButton;
-//    private JLabel accNameTitle;
-//    private JLabel accNumTitle;
-//    private JLabel routingNumTitle;
-//    private JLabel balanceTitle;
-//    private JLabel accountName;
-//    private JLabel accountNum;
-//    private JLabel routingNum;
-//    private JLabel totalBalance;
-//
-//    public void showDashboard() {
-//
-//        // Create and configure the main frame for the dashboard
-//        JFrame frame = new JFrame("Dashboard");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(800, 600);
-//        frame.setLocationRelativeTo(null);
-//
-//        // Create and add components to the frame
-//        JPanel mainPanel = new JPanel();
-//        JLabel titleLabel = new JLabel("Dashboard");
-//        mainPanel.add(titleLabel);
-//
-//        // Set the main panel as the content pane of the frame
-//        frame.setContentPane(contentPane);
-//
-//        // Make the frame visible
-//        frame.setVisible(true);
-//
-//        // Add action listener for the "Edit Budget" button
-//        editBudgetButton.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                // Create and display the budget creation GUI
-//                BudgetCreation budgetCreation = new BudgetCreation();
-//                JFrame budgetFrame = new JFrame("Edit Budget");
-//                budgetFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//                budgetFrame.setContentPane(budgetCreation.BudgetCreation);
-//                budgetFrame.pack();
-//                budgetFrame.setVisible(true);
-//            }
-//        });
-//    }
-//}
-
 package src.View;
 
-import src.Model.User;
-
+import src.View.Login;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
+
 
 public class Dashboard {
     private JPanel contentPane;
-    private JLabel dashboardTitle;
     private JLabel budgetTitle;
     private JPanel budgetPanel;
     private JPanel transactionPanel;
     private JLabel transactionTitle;
-    private JButton acctDetailsButton;
+    private JButton addAccButton;
     private JButton withdrawButton;
     private JButton editBudgetButton;
+    private JButton budgetPreferencesButton;
     private JTable budgetTable;
     private JPanel budgetViewPanel;
     private JButton depositButton;
@@ -91,16 +28,9 @@ public class Dashboard {
     private JLabel accountNum;
     private JLabel routingNum;
     private JLabel totalBalance;
+    private JButton refreshInfoButton;
 
-    private User currentUser; // Add a field to store the currentUser
-
-    // Constructor modified to accept the current user
-    public Dashboard(User currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    public void showDashboard () {
-        this.currentUser = currentUser; // Set the currentUser field
+    public void showDashboard() {
 
         // Create and configure the main frame for the dashboard
         JFrame frame = new JFrame("Dashboard");
@@ -108,12 +38,7 @@ public class Dashboard {
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
 
-        // Create and add components to the frame
-        JPanel mainPanel = new JPanel();
-        JLabel titleLabel = new JLabel("Dashboard");
-        mainPanel.add(titleLabel);
-
-        // Set the main panel as the content pane of the frame
+        // Set content pane of the frame
         frame.setContentPane(contentPane);
 
         // Make the frame visible
@@ -123,7 +48,7 @@ public class Dashboard {
         editBudgetButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Create and display the budget creation GUI
-                BudgetCreation budgetCreation = new BudgetCreation(currentUser);
+                BudgetCreation budgetCreation = new BudgetCreation();
                 JFrame budgetFrame = new JFrame("Edit Budget");
                 budgetFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 budgetFrame.setContentPane(budgetCreation.BudgetCreation);
@@ -131,9 +56,72 @@ public class Dashboard {
                 budgetFrame.setVisible(true);
             }
         });
-    }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
+        // Add action listener for the "Add Bank Account" button
+        addAccButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                AddBankAccount menu = new AddBankAccount();
+                menu.pack();
+                menu.setVisible(true);
+            }
+        });
+
+        // Add action listener for the "Refresh Info" button
+        refreshInfoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String username = Login.getCurrentUser();
+
+                try {
+                    // Establish the connection to the database
+                    Connection connection = DriverManager.getConnection("jdbc:ucanaccess://src/bankdb.accdb");
+
+                    // Prepare SQL statement
+                    String sql = "select Username, AccountName, AccountNo, RoutingNo, Balance from BankAccounts where BankAccounts.Username = ?";
+                    PreparedStatement statement = connection.prepareStatement(sql);
+                    statement.setString(1, username);
+
+                    // Execute the statement
+                    ResultSet accInfoResults = statement.executeQuery();
+                    if (accInfoResults.next()) {
+                        String accName = accInfoResults.getString("AccountName");
+                        int accNum = accInfoResults.getInt("AccountNo");
+                        int routNum = accInfoResults.getInt("RoutingNo");
+                        double balance = accInfoResults.getDouble("Balance");
+                        System.out.println("User found!");
+                        accountName.setText(accName);
+                        accountNum.setText(String.valueOf(accNum));
+                        routingNum.setText(String.valueOf(routNum));
+                        totalBalance.setText(String.valueOf(balance));
+                    } else {
+                        System.err.println("No such user was found.");
+                        JOptionPane.showMessageDialog(frame, "Incorrect Username");
+                    }
+
+                    // Close resources
+                    statement.close();
+                    connection.close();
+
+                }
+                catch (SQLException ex) {
+                    System.err.println("Error: " + ex.getMessage());
+                }
+            }
+        });
+
+        depositButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Deposit menu = new Deposit();
+                menu.pack();
+                menu.setVisible(true);
+            }
+        });
+
+        withdrawButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Withdraw menu = new Withdraw();
+                menu.pack();
+                menu.setVisible(true);
+            }
+        });
     }
 }

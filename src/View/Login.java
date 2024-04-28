@@ -1,126 +1,17 @@
-//package src.View;
-//
-//import javax.swing.*;
-//import java.awt.event.*;
-//import java.sql.*;
-//
-///**
-// * This class allows users to log in to application using established credentials.
-// */
-//
-//public class Login extends JDialog {
-//    private JPanel contentPane;
-//    private JButton buttonConfirm;
-//    private JButton buttonCancel;
-//    private JTextField tfUsername;
-//    private JPasswordField tfPassword;
-//    private JButton createAccountButton;
-//
-//    public Login() {
-//        setContentPane(contentPane);
-//        setModal(true);
-//        getRootPane().setDefaultButton(buttonConfirm);
-//
-//        buttonConfirm.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                onOK();
-//            }
-//        });
-//
-//        buttonCancel.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                onCancel();
-//            }
-//        });
-//
-//        createAccountButton.addActionListener((new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                Register dialog = new Register();
-//                dialog.pack();
-//                dialog.setVisible(true);
-//            }
-//        }));
-//
-//        // call onCancel() when cross is clicked
-//        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-//        addWindowListener(new WindowAdapter() {
-//            public void windowClosing(WindowEvent e) {
-//                onCancel();
-//            }
-//        });
-//
-//        // call onCancel() on ESCAPE
-//        contentPane.registerKeyboardAction(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                onCancel();
-//            }
-//        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-//    }
-//
-//    private void onOK() {
-//        // Get entered username and password
-//        String username = tfUsername.getText();
-//        String password = new String(tfPassword.getPassword());
-//
-//        // Validate credentials
-//        boolean validCredentials = validateCredentials(username, password);
-//
-//        if (validCredentials) {
-//            // Close the login dialog
-//            dispose();
-//
-//            // Open the dashboard view
-//            Dashboard dashboard = new Dashboard();
-//            // Code to display the dashboard UI goes here
-//            // Assuming you have a method to display the dashboard UI, let's call it showDashboard()
-//            dashboard.showDashboard();
-//            dispose();
-//        } else {
-//            // Display error message
-//            JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
-//        }
-//    }
-//
-//    private void onCancel() {
-//        // add your code here if necessary
-//        dispose();
-//    }
-//
-//    private boolean validateCredentials(String username, String password) {
-//        String url = "jdbc:ucanaccess://src/bankdb.accdb"; // Database URL
-//        String sql = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
-//        boolean validCredentials = false;
-//
-//        try (Connection conn = DriverManager.getConnection(url);
-//             PreparedStatement stmt = conn.prepareStatement(sql)) {
-//            // Set parameters for the prepared statement
-//            stmt.setString(1, username);
-//            stmt.setString(2, password);
-//
-//            // Execute the query
-//            try (ResultSet rs = stmt.executeQuery()) {
-//                // Check if the query returned any results
-//                if (rs.next()) {
-//                    // User exists in the database
-//                    validCredentials = true;
-//                }
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace(); // Handle any SQL exceptions
-//        }
-//
-//        return validCredentials;
-//    }
-//}
-
-// Login.java
 package src.View;
 
-import src.Model.User;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.util.Base64;
+
+
+/**
+ * This class allows users to log in to application using established credentials.
+ */
 
 public class Login extends JDialog {
     private JPanel contentPane;
@@ -129,11 +20,13 @@ public class Login extends JDialog {
     private JTextField tfUsername;
     private JPasswordField tfPassword;
     private JButton createAccountButton;
+    private static String currentUser;
 
     public Login() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonConfirm);
+        setLocationRelativeTo(null);
 
         buttonConfirm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -155,6 +48,7 @@ public class Login extends JDialog {
             }
         }));
 
+        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -162,6 +56,7 @@ public class Login extends JDialog {
             }
         });
 
+        // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -169,45 +64,82 @@ public class Login extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    public void setCurrentUser(String user) {
+        currentUser = user;
+    }
+
+    public static String getCurrentUser() {
+        return currentUser;
+    }
+
     private void onOK() {
+        // Get entered username and password
         String username = tfUsername.getText();
         String password = new String(tfPassword.getPassword());
 
-        boolean validCredentials = validateCredentials(username, password);
-
-        if (validCredentials) {
+        // Authentication
+        if (password.equals(getDecryptedPassword(username))) {
+            // Close the login dialog
             dispose();
-            User currentUser = new User(username, password);
-            Dashboard dashboard = new Dashboard(currentUser);
+            // Set username for current user
+            setCurrentUser(username);
+            // Open the dashboard view
+            Dashboard dashboard = new Dashboard();
+            // Code to display the dashboard UI goes here
+            // Assuming you have a method to display the dashboard UI, let's call it showDashboard()
             dashboard.showDashboard();
+            dispose();
         } else {
+            // Display error message
             JOptionPane.showMessageDialog(this, "Invalid username or password", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void onCancel() {
+        // add your code here if necessary
         dispose();
     }
 
-    private boolean validateCredentials(String username, String password) {
-        String url = "jdbc:ucanaccess://src/bankdb.accdb";
-        String sql = "SELECT * FROM Users WHERE Username = ? AND Password = ?";
-        boolean validCredentials = false;
-
+    // Gets user's password from database and decrypts it
+    private String getDecryptedPassword(String username) {
+        String decryptedPassword = "";
+        String url = "jdbc:ucanaccess://src/bankdb.accdb"; // Database URL
+        String sql = "SELECT Password FROM Users WHERE Username = ?";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement stmt = conn.prepareStatement(sql)) {
+            // Set parameters for the prepared statement
             stmt.setString(1, username);
-            stmt.setString(2, password);
 
+            // Execute the query
             try (ResultSet rs = stmt.executeQuery()) {
+                // Check if the query returned any results
                 if (rs.next()) {
-                    validCredentials = true;
+                    decryptedPassword = decrypt(rs.getString("Password"));
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Handle any SQL exceptions
         }
 
-        return validCredentials;
+        return decryptedPassword;
+    }
+
+    public static String decrypt(String ciphertext) {
+        String key = "5a1f63f8d568876d85e3f6bafec6d63c";
+        try {
+            byte[] keyBytes = key.getBytes();
+            SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+
+            byte[] ciphertextBytes = Base64.getDecoder().decode(ciphertext);
+            byte[] plaintextBytes = cipher.doFinal(ciphertextBytes);
+
+            return new String(plaintextBytes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
