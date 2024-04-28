@@ -1,9 +1,11 @@
 package src.View;
 
+import src.View.Login;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+
 
 public class Dashboard {
     private JPanel contentPane;
@@ -67,7 +69,7 @@ public class Dashboard {
         // Add action listener for the "Refresh Info" button
         refreshInfoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String username = JOptionPane.showInputDialog("Please confirm your username");
+                String username = Login.getCurrentUser();
 
                 try {
                     // Establish the connection to the database

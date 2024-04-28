@@ -1,11 +1,13 @@
 package src.View;
 
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.*;
 import java.util.Base64;
+
 
 /**
  * This class allows users to log in to application using established credentials.
@@ -18,6 +20,7 @@ public class Login extends JDialog {
     private JTextField tfUsername;
     private JPasswordField tfPassword;
     private JButton createAccountButton;
+    private static String currentUser;
 
     public Login() {
         setContentPane(contentPane);
@@ -61,6 +64,14 @@ public class Login extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    public void setCurrentUser(String user) {
+        currentUser = user;
+    }
+
+    public static String getCurrentUser() {
+        return currentUser;
+    }
+
     private void onOK() {
         // Get entered username and password
         String username = tfUsername.getText();
@@ -70,7 +81,8 @@ public class Login extends JDialog {
         if (password.equals(getDecryptedPassword(username))) {
             // Close the login dialog
             dispose();
-
+            // Set username for current user
+            setCurrentUser(username);
             // Open the dashboard view
             Dashboard dashboard = new Dashboard();
             // Code to display the dashboard UI goes here

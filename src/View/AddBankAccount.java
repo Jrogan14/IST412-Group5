@@ -15,7 +15,6 @@ public class AddBankAccount extends JDialog {
     private JTextField tfInitialBal;
     private JButton buttonConfirm;
     private JButton buttonCancel;
-    private JTextField tfUsername;
 
     public AddBankAccount() {
         setContentPane(contentPane);
@@ -53,15 +52,11 @@ public class AddBankAccount extends JDialog {
 
     private void onConfirm() {
         StringBuilder errors = new StringBuilder();
-        String username = "", accName = "";
+        String username = Login.getCurrentUser();
+        String accName = "";
         int accNo = 0, routingNo = 0;
         double bal = 0;
         // verify fields
-        if (tfUsername.getText().isEmpty()) {
-            errors.append("Username must not be empty.\n");
-        } else {
-            username = tfUsername.getText();
-        }
         if (tfAccountName.getText().isEmpty()) {
             errors.append("Bank Holder Name must not be empty.\n");
         } else {

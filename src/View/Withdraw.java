@@ -8,7 +8,6 @@ public class Withdraw extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField tfUsername;
     private JTextField tfWithdraw;
 
     public Withdraw() {
@@ -47,7 +46,7 @@ public class Withdraw extends JDialog {
 
     // Get user balance
     private double getBalance() {
-        String username = tfUsername.getText();
+        String username = Login.getCurrentUser();
         try {
             // Establish the connection to the database
             Connection connection = DriverManager.getConnection("jdbc:ucanaccess://src/bankdb.accdb");
@@ -79,14 +78,9 @@ public class Withdraw extends JDialog {
 
     private void onOK() {
         StringBuilder errors = new StringBuilder();
-        String username = "";
+        String username = Login.getCurrentUser();
         double withdraw = 0;
         // verify fields
-        if (tfUsername.getText().isEmpty()) {
-            errors.append("Username must not be empty.\n");
-        } else {
-            username = tfUsername.getText();
-        }
         if (tfWithdraw.getText().isEmpty()) {
             errors.append("Withdraw must not be empty.\n");
         } else {
