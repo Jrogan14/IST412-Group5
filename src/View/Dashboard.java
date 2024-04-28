@@ -2,6 +2,7 @@ package src.View;
 
 import src.View.Login;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
@@ -16,7 +17,6 @@ public class Dashboard {
     private JButton addAccButton;
     private JButton withdrawButton;
     private JButton editBudgetButton;
-    private JButton budgetPreferencesButton;
     private JTable budgetTable;
     private JPanel budgetViewPanel;
     private JButton depositButton;
@@ -29,6 +29,9 @@ public class Dashboard {
     private JLabel routingNum;
     private JLabel totalBalance;
     private JButton refreshInfoButton;
+
+    // Add DB_URL here
+    private static final String DB_URL = "jdbc:ucanaccess://src/bankdb.accdb";
 
     public void showDashboard() {
 
@@ -123,5 +126,33 @@ public class Dashboard {
                 menu.setVisible(true);
             }
         });
+    }
+    public void populateBudgetTable() {
+        DefaultTableModel model = (DefaultTableModel) budgetTable.getModel();
+        model.setRowCount(0); // Clear existing rows
+
+        String username = Login.getCurrentUser(); // Get the current user
+
+        try (Connection conn = DriverManager.getConnection(DB_URL)) {
+            String sql = "SELECT Rent, Bills, Groceries, Savings, Checking FROM Budgets WHERE Username = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, username);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        Object[] rowData = {
+                                rs.getDouble("Rent"),
+                                rs.getDouble("Bills"),
+                                rs.getDouble("Groceries"),
+                                rs.getDouble("Savings"),
+                                rs.getDouble("Checking")
+                        };
+                        model.addRow(rowData);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle any SQL exceptions
+        }
     }
 }
