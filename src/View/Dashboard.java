@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.util.Vector;
 
 public class Dashboard {
     private JPanel contentPane;
@@ -126,25 +127,15 @@ public class Dashboard {
     }
 
     public void populateBudgetTable() {
-        DefaultTableModel model = (DefaultTableModel) budgetTable.getModel();
-        model.setRowCount(0); // Clear existing rows
-
         String username = Login.getCurrentUser(); // Get the current user
 
         try (Connection conn = DriverManager.getConnection("jdbc:ucanaccess://src/bankdb.accdb")) {
-            String sql = "SELECT Rent, Bills, Groceries, Savings, Checking FROM Budgets WHERE Username = ?";
+            String sql = "select Rent, Bills, Groceries, Savings, Checking from Budgets where Budgets.Username = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, username);
                 try (ResultSet rs = pstmt.executeQuery()) {
-                    while (rs.next()) {
-                        Object[] rowData = {
-                                rs.getDouble("Rent"),
-                                rs.getDouble("Bills"),
-                                rs.getDouble("Groceries"),
-                                rs.getDouble("Savings"),
-                                rs.getDouble("Checking")
-                        };
-                        model.addRow(rowData);
+                    if (rs.next()) {
+                        budgetTable.setModel(buildTableModel(rs));
                     }
                 }
             }
@@ -152,5 +143,30 @@ public class Dashboard {
             ex.printStackTrace();
             // Handle any SQL exceptions
         }
+    }
+
+    public static DefaultTableModel buildTableModel(ResultSet rs)
+            throws SQLException {
+
+        ResultSetMetaData metaData = rs.getMetaData();
+
+        // names of columns
+        Vector<String> columnNames = new Vector<>();
+        int columnCount = metaData.getColumnCount();
+        for (int column = 1; column <= columnCount; column++) {
+            columnNames.add(metaData.getColumnName(column));
+        }
+
+        // data of the table
+        Vector<Vector<Object>> data = new Vector<>();
+        while (rs.next()) {
+            Vector<Object> vector = new Vector<>();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                vector.add(rs.getObject(columnIndex));
+            }
+            data.add(vector);
+        }
+
+        return new DefaultTableModel(data, columnNames);
     }
 }
