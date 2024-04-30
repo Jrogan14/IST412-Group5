@@ -9,8 +9,8 @@ public class Dashboard {
     private JPanel contentPane;
     private JLabel budgetTitle;
     private JPanel budgetPanel;
-    private JPanel transactionPanel;
-    private JLabel transactionTitle;
+    private JPanel bankPanel;
+    private JLabel bankInfoTitle;
     private JButton addAccButton;
     private JButton withdrawButton;
     private JButton addBudgetButton;
